@@ -10,16 +10,33 @@ class AddressController extends Controller
 {
     public function index()
     {
-        return inertia('Search');
+        $cepData = session('cepData');
+
+        return inertia('Search', [
+            'cepData' => $cepData
+        ]);
     }
 
     public function search(Request $request){
         $cep = $request->input('cep');
-
+        
         $response = Http::get("viacep.com.br/ws/$cep/json/")->json();
-
-        return inertia('Search', [
-            'cepData' => $response
-        ]);
+        
+        if (isset($response['erro'])) {
+            return redirect()->route('index')->withErrors([
+                'cep' => 'O CEP: ' . $cep . ' não foi identificado.' 
+            ]);
+        }else{
+            return redirect()->route('index')->with([
+                'cepData' => [
+                    'cep' => $response['cep'],
+                    'logradouro' => $response['logradouro'],
+                    'bairro' => $response['bairro'],
+                    'localidade' => $response['localidade'],
+                    'uf' => $response['uf'],
+                    'ddd' => $response['ddd']
+                ]
+            ]);
+        }
     }
 }

@@ -7,29 +7,25 @@ defineProps({
 });
 
 const form = useForm({
-  cep: null,
+  cep: null
 });
 </script>
 
 <template>
     <div class="container">
-        <div class="d-flex align-items-center py-5">
-            <div class="card shadow-lg bg-body-tertiary rounded w-75 mx-auto col-12">
-                <div class="card-body">
-                    <form @submit.prevent="form.post('/search', {
-                        onSuccess: () => openModal,
-                    })">
-                        <div v-if="errors.cep">{{ errors.cep }}</div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="cep" placeholder="99999-99" maxlength="8" size="8" v-model="form.cep">
-                            <label for="cep">CEP</label>
-                        </div>
-                        <button type="submit" class="btn btn-success btn-sm" :disabled="form.processing">Pesquisar</button>
-                    </form>
-                </div>
+        <div class="card shadow-lg bg-body-tertiary rounded w-100 mx-auto my-5">
+            <div class="card-body">
+                <form @submit.prevent="form.post('/search')">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="cep" placeholder="99999-99" maxlength="8" size="8" v-model="form.cep" required>
+                        <label for="cep">CEP</label>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-sm" :disabled="form.processing">Pesquisar</button>
+                </form>
             </div>
         </div>
-        <div v-if="cepData" class="card shadow-lg bg-body-tertiary rounded w-75 mx-auto">
+        <div v-if="errors.cep" class="alert alert-danger" role="alert">{{ errors.cep }}</div>
+        <div v-if="cepData" class="card shadow-lg bg-body-tertiary rounded w-100 mx-auto">
             <div class="card-body">
                 <ul class="list-group list-group-flush rounded">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
