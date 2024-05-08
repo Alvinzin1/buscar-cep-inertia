@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Address\SaveRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Inertia\Inertia;
 
 class AddressController extends Controller
 {
@@ -38,5 +38,9 @@ class AddressController extends Controller
                 ]
             ]);
         }
+    }
+
+    public function save(SaveRequest $request){
+        dd($request->validated());
     }
 }

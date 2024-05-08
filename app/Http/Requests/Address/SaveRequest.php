@@ -11,7 +11,7 @@ class SaveRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -27,7 +27,8 @@ class SaveRequest extends FormRequest
             'bairro' => 'required|string',
             'localidade' => 'required|string',
             'uf' => 'required|string',
-            'ddd' => 'required|string'
+            'ddd' => 'required|string',
+            'numero' => 'required|number'
         ];
     }
 }
