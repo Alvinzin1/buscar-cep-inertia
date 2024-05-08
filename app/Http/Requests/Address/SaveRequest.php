@@ -28,7 +28,7 @@ class SaveRequest extends FormRequest
             'localidade' => 'required|string',
             'uf' => 'required|string',
             'ddd' => 'required|string',
-            'numero' => 'required|number'
+            'numero' => 'required|integer'
         ];
     }
 }

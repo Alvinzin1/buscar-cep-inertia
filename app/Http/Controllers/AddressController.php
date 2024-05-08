@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Http\Requests\Address\SaveRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\Address\SearchRequest;
 use Illuminate\Support\Facades\Http;
 
 class AddressController extends Controller
@@ -13,11 +14,12 @@ class AddressController extends Controller
         $cepData = session('cepData');
 
         return inertia('Search', [
-            'cepData' => $cepData
+            'cepData' => $cepData,
+            'adresses' => Address::all()
         ]);
     }
 
-    public function search(Request $request){
+    public function search(SearchRequest $request){
         $cep = $request->input('cep');
         
         $response = Http::get("viacep.com.br/ws/$cep/json/")->json();
@@ -41,6 +43,25 @@ class AddressController extends Controller
     }
 
     public function save(SaveRequest $request){
-        dd($request->validated());
+        
+        $repeated_address = Address::where('cep', $request->cep)->first();
+        
+        if(isset($repeated_address)){
+            return redirect()->route('index')->withErrors([
+                'cep' => 'O CEP: ' . $request->cep . ' já está cadastrado.' 
+            ]);
+        }else{
+            Address::create([
+                'cep' => $request->cep,
+                'logradouro' => $request->logradouro,
+                'bairro' => $request->bairro,
+                'localidade' => $request->localidade,
+                'uf' =>$request->uf,
+                'ddd' =>$request->ddd,
+                'numero' => $request->numero
+            ]);
+
+            return redirect()->route('index');
+        }
     }
 }

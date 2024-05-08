@@ -11,7 +11,7 @@ class SearchRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class SearchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'cep' => 'required|string|size:8',
         ];
     }
 }
