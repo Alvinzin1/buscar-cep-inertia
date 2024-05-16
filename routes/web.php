@@ -15,5 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [AddressController::class, 'index'])->name('index');
+Route::get('/create', [AddressController::class, 'create'])->name('create');
 Route::post('/search', [AddressController::class, 'search'])->name('search');
 Route::post('/save', [AddressController::class, 'save'])->name('save');

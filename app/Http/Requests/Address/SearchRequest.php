@@ -22,7 +22,7 @@ class SearchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cep' => 'required|string|size:8',
+            'cepApi' => 'required|string|size:8',
         ];
     }
 }

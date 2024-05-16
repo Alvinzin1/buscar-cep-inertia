@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\Address;
 use App\Http\Requests\Address\SaveRequest;
 use App\Http\Requests\Address\SearchRequest;
@@ -11,34 +12,36 @@ class AddressController extends Controller
 {
     public function index()
     {
-        $cepData = session('cepData');
-
-        return inertia('Search', [
-            'cepData' => $cepData,
+        return inertia('HomePage', [
             'adresses' => Address::all()
         ]);
     }
 
+    public function create()
+    {
+        return inertia('Address/Create');
+    }
+
     public function search(SearchRequest $request){
-        $cep = $request->input('cep');
+        $cepApi = $request->input('cepApi');
         
-        $response = Http::get("viacep.com.br/ws/$cep/json/")->json();
+        $response = Http::get("viacep.com.br/ws/$cepApi/json/")->json();
         
         if (isset($response['erro'])) {
-            return redirect()->route('index')->withErrors([
-                'cep' => 'O CEP: ' . $cep . ' não foi identificado.' 
+            return redirect()->route('create')->withErrors([
+                'cepApi' => 'O CEP: ' . $cepApi . ' não foi identificado.'
             ]);
         }else{
-            return redirect()->route('index')->with([
-                'cepData' => [
-                    'cep' => $response['cep'],
-                    'logradouro' => $response['logradouro'],
-                    'bairro' => $response['bairro'],
-                    'localidade' => $response['localidade'],
-                    'uf' => $response['uf'],
-                    'ddd' => $response['ddd']
-                ]
-            ]);
+            $data = [
+                'cep' => $response['cep'],
+                'logradouro' => $response['logradouro'],
+                'bairro' => $response['bairro'],
+                'localidade' => $response['localidade'],
+                'uf' => $response['uf'],
+                'ddd' => $response['ddd']
+            ];
+
+            return Inertia::visit('Address/Create', ['cepData' => $data]);
         }
     }
 
