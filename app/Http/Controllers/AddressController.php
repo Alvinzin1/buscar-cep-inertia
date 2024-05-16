@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
 use App\Models\Address;
 use App\Http\Requests\Address\SaveRequest;
 use App\Http\Requests\Address\SearchRequest;
@@ -28,20 +27,20 @@ class AddressController extends Controller
         $response = Http::get("viacep.com.br/ws/$cepApi/json/")->json();
         
         if (isset($response['erro'])) {
-            return redirect()->route('create')->withErrors([
+            return to_route('create')->withErrors([
                 'cepApi' => 'O CEP: ' . $cepApi . ' não foi identificado.'
             ]);
         }else{
-            $data = [
-                'cep' => $response['cep'],
-                'logradouro' => $response['logradouro'],
-                'bairro' => $response['bairro'],
-                'localidade' => $response['localidade'],
-                'uf' => $response['uf'],
-                'ddd' => $response['ddd']
-            ];
-
-            return Inertia::visit('Address/Create', ['cepData' => $data]);
+            return to_route('create')->with([
+                'cepData' => [
+                    'cep' => $response['cep'],
+                    'logradouro' => $response['logradouro'],
+                    'bairro' => $response['bairro'],
+                    'localidade' => $response['localidade'],
+                    'uf' => $response['uf'],
+                    'ddd' => $response['ddd']
+                ]
+            ]);
         }
     }
 
@@ -50,7 +49,7 @@ class AddressController extends Controller
         $repeated_address = Address::where('cep', $request->cep)->first();
         
         if(isset($repeated_address)){
-            return redirect()->route('index')->withErrors([
+            return to_route('create')->withErrors([
                 'cep' => 'O CEP: ' . $request->cep . ' já está cadastrado.' 
             ]);
         }else{

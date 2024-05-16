@@ -5,6 +5,7 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 createInertiaApp({
+  title: title => `${title} - BuscarCep`,
   resolve: name => {
     const pages = import.meta.glob('./Pages/**/**/*.vue', { eager: true })
     let page = pages[`./Pages/${name}.vue`]

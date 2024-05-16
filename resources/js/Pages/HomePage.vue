@@ -1,5 +1,6 @@
 <script setup>
 import Card from '../Components/Card.vue';
+import { Head } from '@inertiajs/vue3'
 
 const props = defineProps({ 
     adresses: Object
@@ -7,6 +8,7 @@ const props = defineProps({
 </script>
 
 <template>
+    <Head title="Inicio"></Head>
     <div class="container pt-5">
         <Card>
             <div class="card-body">

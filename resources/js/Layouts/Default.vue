@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/vue3'
 </script>
 
 <template>
-    <main>
+    <main class="bg-dark bg-gradient min-vh-100">
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container-fluid">
@@ -25,8 +25,8 @@ import { Link } from '@inertiajs/vue3'
                 </div>
             </nav>
         </header>
-        <div>
-            <slot />
+        <div class="pt-5">
+            <slot></slot>
         </div>
     </main>
 </template>
