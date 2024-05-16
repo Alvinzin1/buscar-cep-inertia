@@ -2,9 +2,6 @@
 import Card from '../Components/Card.vue';
 import { Head } from '@inertiajs/vue3'
 
-const props = defineProps({ 
-    adresses: Object
-});
 </script>
 
 <template>
@@ -27,7 +24,7 @@ const props = defineProps({
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(address, index) in adresses" class="text-nowrap">
+                            <tr v-for="(address, index) in $page.props.adresses" class="text-nowrap">
                                 <th scope="row">{{ index + 1 }}</th>
                                 <th scope="row">{{ address.cep }}</th>
                                 <th scope="row">{{ address.logradouro }}</th>
