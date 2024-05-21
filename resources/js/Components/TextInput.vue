@@ -25,18 +25,14 @@ const props = defineProps({
   modelValue: [String, Number]
 });
 
-// Define a ref para o  modelValue
 const modelValue = ref(props.modelValue);
 
-// Observo a prop modelvalue que vem do componente pai
 watch(() => props.modelValue, (newValue) => {
   modelValue.value = newValue;
 });
 
-// Define a ref para o error prop
 const error = ref(props.error);
 
-// Observo a prop error que vem do componente pai
 watch(() => props.error, (newError) => {
   error.value = newError;
 });

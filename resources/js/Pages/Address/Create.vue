@@ -25,14 +25,14 @@ const addressForm = useForm({
             <div class="col-md-5">
                 <Card>
                     <div class="card-body">
-                        <form @submit.prevent="searchForm.post('/search', {
+                        <form @submit.prevent="searchForm.get('/search' + cepApi, {
                             onSuccess: () => {
-                                addressForm.cep = $page.props.response.cepData.cep;
-                                addressForm.ddd = $page.props.response.cepData.ddd;
-                                addressForm.logradouro = $page.props.response.cepData.logradouro;
-                                addressForm.bairro = $page.props.response.cepData.bairro;
-                                addressForm.localidade = $page.props.response.cepData.localidade;
-                                addressForm.uf = $page.props.response.cepData.uf;
+                                addressForm.cep = $page.props.cepData.cep;
+                                addressForm.ddd = $page.props.cepData.ddd;
+                                addressForm.logradouro = $page.props.cepData.logradouro;
+                                addressForm.bairro = $page.props.cepData.bairro;
+                                addressForm.localidade = $page.props.cepData.localidade;
+                                addressForm.uf = $page.props.cepData.uf;
                             },
                         })">
                             <TextInput :error="searchForm.errors.cepApi" type="text" label="CEP" placeholder="Apenas números..." field="cepApi" v-model="searchForm.cepApi" :required="true" :maxlength="8" :minlength="8"></TextInput>
@@ -44,9 +44,7 @@ const addressForm = useForm({
             <div class="col-md-7">
                 <Card v-if="addressForm.cep">
                     <div class="card-body">
-                        <form class="row g-3" @submit.prevent="addressForm.post('/save', { 
-                            preserveState: true 
-                        })">
+                        <form class="row g-3" @submit.prevent="addressForm.post('/save')">
                             <div class="col-md-5">
                                 <TextInput :error="addressForm.errors.ddd" type="text" label="DDD" field="ddd" v-model="addressForm.ddd" :required="true" :maxlength="2" :minlength="2"></TextInput>
                             </div>
@@ -57,10 +55,10 @@ const addressForm = useForm({
                                 <TextInput :error="addressForm.errors.logradouro" type="text" label="Logradouro" field="logradouro" v-model="addressForm.logradouro" :required="true" :maxlength="50"></TextInput>
                             </div>
                             <div class="col-md-5">
-                                <TextInput :error="addressForm.errors.numero" type="text" label="Numero"  field="numero" v-model="addressForm.numero" :required="true" :maxlength="8"></TextInput>
+                                <TextInput :error="addressForm.errors.numero" type="text" label="Numero" field="numero" v-model="addressForm.numero" :required="true" :maxlength="8"></TextInput>
                             </div>
                             <div class="col-md-4">
-                                <TextInput :error="addressForm.errors.bairro" type="text" label="Bairro"  field="bairro" v-model="addressForm.bairro" :required="true" :maxlength="50"></TextInput>
+                                <TextInput :error="addressForm.errors.bairro" type="text" label="Bairro" field="bairro" v-model="addressForm.bairro" :required="true" :maxlength="50"></TextInput>
                             </div>
                             <div class="col-md-4">
                                 <TextInput :error="addressForm.errors.localidade" type="text" label="Localidade" field="localidade" v-model="addressForm.localidade" :required="true" :maxlength="50"></TextInput>
